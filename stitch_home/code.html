@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;family=Orbitron:wght@400;700;900&amp;family=Zhi+Mang+Xing&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "cyber-cyan": "#00f3ff",
+              "cyber-pink": "#ff00ff",
+              "cyber-purple": "#bc00ff",
+              "cyber-yellow": "#fdee06",
+              "background": "#050505",
+              "surface": "#0a0a0f",
+              "surface-variant": "#12121a",
+              "primary": "#00f3ff",
+              "secondary": "#ff00ff",
+              "outline": "#303030",
+            },
+            fontFamily: {
+              "headline": ["Orbitron", "Noto Sans SC"],
+              "body": ["Noto Sans SC"],
+              "accent": ["Zhi Mang Xing"],
+            },
+            animation: {
+              'glitch': 'glitch 1s linear infinite',
+              'scanline': 'scanline 8s linear infinite',
+              'pulse-neon': 'pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              glitch: {
+                '0%, 100%': { transform: 'translate(0)' },
+                '33%': { transform: 'translate(-2px, 2px)' },
+                '66%': { transform: 'translate(2px, -2px)' },
+              },
+              scanline: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' },
+              },
+              'pulse-neon': {
+                '0%, 100%': { opacity: 1, filter: 'brightness(1.2) drop-shadow(0 0 10px #00f3ff)' },
+                '50%': { opacity: 0.8, filter: 'brightness(0.8) drop-shadow(0 0 2px #00f3ff)' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background-color: #050505;
+        background-image: 
+          linear-gradient(rgba(18, 18, 26, 0.5) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(18, 18, 26, 0.5) 1px, transparent 1px);
+        background-size: 40px 40px;
+        position: relative;
+        overflow-x: hidden;
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 2px, 3px 100%;
+        pointer-events: none;
+        z-index: 100;
+      }
+      .cyber-border {
+        position: relative;
+        border: 1px solid rgba(0, 243, 255, 0.3);
+        box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1);
+      }
+      .cyber-border::before {
+        content: "";
+        position: absolute;
+        top: -1px; left: -1px; width: 10px; height: 10px;
+        border-top: 2px solid #00f3ff; border-left: 2px solid #00f3ff;
+      }
+      .cyber-border::after {
+        content: "";
+        position: absolute;
+        bottom: -1px; right: -1px; width: 10px; height: 10px;
+        border-bottom: 2px solid #ff00ff; border-right: 2px solid #ff00ff;
+      }
+      .glass-morphism {
+        background: rgba(10, 10, 15, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .masonry-grid {
+        column-count: 1;
+        column-gap: 2rem;
+      }
+      @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+      .masonry-item {
+        break-inside: avoid;
+        margin-bottom: 2rem;
+      }
+      .glitch-hover:hover {
+        animation: glitch 0.2s infinite;
+      }
+      .neon-text-cyan { text-shadow: 0 0 10px #00f3ff, 0 0 20px #00f3ff; }
+      .neon-text-pink { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+    </style>
+</head>
+<body class="text-slate-200 font-body selection:bg-cyber-cyan/30 selection:text-white">
+<!-- 导航栏 -->
+<nav class="fixed top-0 w-full z-[110] glass-morphism border-b border-cyber-cyan/20 h-16 flex items-center justify-between px-6">
+<div class="flex items-center gap-10">
+<span class="text-2xl font-black tracking-tighter font-headline neon-text-cyan italic">PROMPT_CURATOR_v1.0</span>
+<div class="hidden md:flex items-center gap-8 font-headline text-xs tracking-widest uppercase">
+<a class="text-cyber-cyan border-b border-cyber-cyan" href="#">探索 / DISCOVER</a>
+<a class="text-slate-400 hover:text-cyber-pink transition-colors" href="#">浏览 / BROWSE</a>
+<a class="text-slate-400 hover:text-cyber-pink transition-colors" href="#">创作 / CREATE</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<button class="text-cyber-cyan hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl" data-icon="notifications">notifications</span>
+</button>
+<button class="text-cyber-cyan hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl" data-icon="terminal">terminal</span>
+</button>
+</div>
+<div class="h-10 w-10 border-2 border-cyber-pink p-0.5 rounded-sm">
+<img alt="用户头像" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnov54mZac9M86m4LV3sEntSLn5hgw6vkMgEBCoEAIyVZ7nLR_L3EqfMuuCYoicFyRm5XfAD00l3IExTeyRs1TOivTM6hWhHScCIsTlkPZzySA5sOoVihtEeqgi1QpNaPTPzxTcI35GUf6uHEDQrqgKRgpz4wax-GWUx1mMttPMsFy7Cuiz0L2mE6OJr5pHu2jpXaSukt7YC0vucih6YMr8FXflXKJz-IZxss0nSYShPQ6qZxQKc1BEdOG6tKgjERpN2BN3bCbzqw"/>
+</div>
+</div>
+</nav>
+<main class="pt-16 min-h-screen">
+<!-- 英雄区 -->
+<section class="relative px-6 py-24 md:py-40 flex flex-col items-center justify-center overflow-hidden border-b border-cyber-purple/20">
+<div class="absolute inset-0 z-0 opacity-40 pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyber-purple rounded-full blur-[160px] animate-pulse"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyber-cyan rounded-full blur-[160px] animate-pulse"></div>
+</div>
+<div class="relative z-10 w-full max-w-5xl text-center space-y-10">
+<div class="inline-block px-4 py-1 border border-cyber-cyan text-cyber-cyan text-[10px] font-headline tracking-widest uppercase mb-4 animate-pulse-neon">
+                接入神经网络... 状态: 在线
+            </div>
+<h1 class="text-6xl md:text-8xl font-black font-headline tracking-tighter leading-none">
+                找到你的下个 <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-cyber-pink to-cyber-purple neon-text-pink">指令核心。</span>
+</h1>
+<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-body">
+                探索由数字工程师精心打造的高性能 AI 提示词库，为你的创作注入赛博灵魂。
+            </p>
+<div class="relative max-w-3xl mx-auto group">
+<div class="absolute -inset-1 bg-gradient-to-r from-cyber-cyan to-cyber-pink rounded-none blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative flex items-center bg-surface border border-cyber-cyan/30">
+<div class="pl-6 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-cyber-cyan" data-icon="search">search</span>
+</div>
+<input class="w-full h-20 pl-4 pr-6 bg-transparent border-none focus:ring-0 text-cyber-cyan font-headline text-xl placeholder:text-slate-600" placeholder="搜索 建筑, 人像, UI/UX..." type="text"/>
+<button class="h-20 px-10 bg-cyber-cyan text-black font-headline font-bold hover:bg-white transition-colors">
+                        EXECUTE
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 内容布局 -->
+<div class="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-16">
+<!-- 左侧：瀑布流 Feed -->
+<div class="flex-1">
+<div class="flex items-center justify-between mb-12 border-l-4 border-cyber-pink pl-6">
+<div>
+<h2 class="font-headline text-3xl font-black italic tracking-tighter uppercase neon-text-pink">精选提示词 / FEATURED_LOGS</h2>
+<p class="text-[10px] font-headline text-slate-500 mt-1">TOTAL_RECORDS: 1,429 | FILTER: RECENT</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 bg-cyber-cyan/10 border border-cyber-cyan text-cyber-cyan text-xs font-headline hover:bg-cyber-cyan hover:text-black transition-all">最新</button>
+<button class="px-6 py-2 hover:bg-white/5 text-slate-500 text-xs font-headline border border-transparent hover:border-slate-800 transition-all">热门</button>
+</div>
+</div>
+<!-- 瀑布流网格 -->
+<div class="masonry-grid">
+<!-- 卡片 1 -->
+<div class="masonry-item group">
+<div class="cyber-border bg-surface-variant overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(0,243,255,0.4)] cursor-pointer">
+<div class="aspect-[4/3] bg-black overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" data-alt="人像" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJEi2YbdlbmiO9g4Th_UcIZdcqsfVeOyT6ZdPG0Lip4zurCV0BmoEu9b-c8Nbj6QSfhsEfwM3uYWKIMKjQ_zQjcReMTY1ZfHV-scMRtoo6SUPSqCky-ZQMeg5rLdPr5Yeo-bkm8ud2oKVTXBBLotIkr6kxomEmXnPwOQ65xUH-wvl2_5653U1Q4upyrnW4cI_qUsafFLOUXKMo9qpqJSWX0-LyRU4_rJZ3yid-pIXbV6Ah1bJcpiPBLTJY81_qQM849xlesa8YpDk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-cyber-cyan text-black font-headline text-[9px] font-bold uppercase tracking-widest">Midjourney</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold group-hover:text-cyber-cyan transition-colors mb-2 italic">超写实肖像指令集</h3>
+<p class="text-slate-400 text-sm leading-relaxed mb-6">为人物肖像实现电影级光效和解剖学精准度而设计的精妙指令。</p>
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full border border-cyber-cyan">
+<img class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5B1ldnO1J8Ccp3CbtuQDqZEFFw1NCHK9omm7hd42TyUW__85xXg5bZBt3pI8_cujeDFscOOw3YYc1lg68bR5JF8oSdbxkS5SbHbYJjgyZc7uyJV59RN5Tu7CiVqMRS38SF8nv1OoVVASnFQ_vtLC1IU3F7FzePSiQfvIBCvDfPTMBC_EqbO5mtfA6v5y7icMgT-gwBGjU6TeQb_crP5PxEK-Mw_KXN0ppfnmXzBsV7N5h93rEoaZYTxVpe-ib0zGYa1oi4x5mIo4"/>
+</div>
+<span class="text-[10px] font-headline text-slate-500">@PIXEL_WIZARD</span>
+</div>
+<div class="flex gap-4 text-[10px] font-headline text-cyber-cyan">
+<span class="flex items-center gap-1">👁 1.2K</span>
+<span class="flex items-center gap-1 text-cyber-pink">❤ 432</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 卡片 2 (高度不同) -->
+<div class="masonry-item group">
+<div class="cyber-border bg-surface-variant overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(255,0,255,0.4)] cursor-pointer">
+<div class="aspect-[3/4] bg-black overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" data-alt="建筑" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDokRDqaYUv531s0vHxLmX5M1wx4V12rz5Jgdo8_oAXIutTjRe36ROl58CZnxYcpJihdrj-FSAQhsMAZgZjG0buBFUhDkkuVY8JAxESXO1vwWbmS3WlWa9aDxTPikr8yx5LDF_FvSjy4Ta9kvL9vJFoinBBcv5KkY_2eN9WbrMv3BAqEoEw6-0BTYhqbZhGd7fUUYhTREXIFBXv-QS-nexWcCr-sfSS1xpNs3ek_9qfMbHc5DKPXWIKpeg3-OLhdzd4S62y9E8V1BE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-cyber-pink text-black font-headline text-[9px] font-bold uppercase tracking-widest">DALL-E 3</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold group-hover:text-cyber-pink transition-colors mb-2 italic">赛博朋克建筑模组</h3>
+<p class="text-slate-400 text-sm leading-relaxed mb-6">针对具有霓虹元素和雨夜路面的粗野主义建筑的详尽指令。</p>
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full border border-cyber-pink">
+<img class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz0y4xSxib23wnQ4FMxU8O-cjxFknabTYjDNP1-fWZubT0X9VFw8MxtpiinJHSszH3X7pQKk2QMF3tyIsyUA-MG8Kd70nKyGCcPJmv5IOHZb1rE9_8_QTft8uZgvHg2U0ou4spQSbHWvbr1B0InhdIl-RTQOnuvRDPIcSJ-zfdd_QdVwNdEUmM2KBqMdoXSjsbRYqUSkloxvBm36Up3VwPB5mzyOgeQ1v5J_12UrDOPWSRH6Pb7L_EmgzcmwtRYH1G71gRW3cTgE8"/>
+</div>
+<span class="text-[10px] font-headline text-slate-500">@NEON_ARCH</span>
+</div>
+<div class="flex gap-4 text-[10px] font-headline text-cyber-cyan">
+<span class="flex items-center gap-1">👁 890</span>
+<span class="flex items-center gap-1 text-cyber-pink">❤ 211</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 卡片 3 (高度不同) -->
+<div class="masonry-item group">
+<div class="cyber-border bg-surface-variant overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(0,243,255,0.4)] cursor-pointer">
+<div class="aspect-video bg-black overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" data-alt="图标" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj4sm5LWjvWMMVVpMdM8OG-Gmk0BYBM-cOE4EOQo8YTlRUBpB4FmdX5Am-mDjUyjlAFrEY-l52PKKcZ1j8AicfmdT25fpPaZ06if9gkEgQwzLkqzaQE7NcsiRzZzRvp3kL91tAus6KK7aUqNkuyaThkmQWVdcNcTGFurxmnBLz5biBlo3QetFPAX2kQHkeERR_4JLiMbyKhqkJBqLXjgA73p_dcL_EFgRtMi_vKMPEG4h6pRM3vjp0UATcRB6Ua4FkOyTNIRzQDxQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-cyber-purple text-white font-headline text-[9px] font-bold uppercase tracking-widest">Stable Diffusion</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold group-hover:text-cyber-cyan transition-colors mb-2 italic">3D 黏土风 UI 图标</h3>
+<p class="text-slate-400 text-sm leading-relaxed mb-6">柔和友好的现代 UI 图标美学。包含材质重量和阴影参数。</p>
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full border border-cyber-purple">
+<img class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX0lXxr7vrSPwwLGkGC7c1NjnXWkq7EqfbB9i2kToKQlOM-0KWnktGje7i1kwdOJbbKNgZi0yEje08pae8I5Cg6qIcJLZWx-Da18-Gc9O-oOJOWrQIs6RO8BpmY5NglwaLUQshF9GNwJsO1V4afAjShG7hIjFqaWaUFRoJavc-YQ8Cn4eXfhDuD8wDlgIJLBauKCepZRDQnPddRQPFK5vTk_wWeUN9G5EBoiyKLVCfEAviJt-kQic0Gom-pAyIHUWUr84sHEjegN4"/>
+</div>
+<span class="text-[10px] font-headline text-slate-500">@CLAY_MASTER</span>
+</div>
+<div class="flex gap-4 text-[10px] font-headline text-cyber-cyan">
+<span class="flex items-center gap-1">👁 3.4K</span>
+<span class="flex items-center gap-1 text-cyber-pink">❤ 1.1K</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 卡片 4 -->
+<div class="masonry-item group">
+<div class="cyber-border bg-surface-variant overflow-hidden flex flex-col transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(253,238,6,0.4)] cursor-pointer">
+<div class="aspect-square bg-black overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" data-alt="营销" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQbBF0hsVoILfVYdCyolEi9ioKe23h-jAXzUheIMTZYhrL2fIDUFZ55WVSQNzdYEht4ywzArGl32tww_Is6B0bcGYz6UVpMNwUXaU5dnWh9eIH0HXIsV9f6wHMg9ibcCUs3I7ffGfiEdVzQNS-WWwBgGQr2yBYnG3sWuaY7ZiJZ7XSwz_enJCRushsnkDB7QxKrYijpKpYWM62OwCGPESI3JBSl5WA5V7AUMAnQqCiHsxLuPTOIchQgv8ZzhTav6Xw2DzKgErTJOY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-cyber-yellow text-black font-headline text-[9px] font-bold uppercase tracking-widest">ChatGPT</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold group-hover:text-cyber-yellow transition-colors mb-2 italic">战略营销规划器</h3>
+<p class="text-slate-400 text-sm leading-relaxed mb-6">高逻辑性文本指令，为初创公司生成 30 天跨平台营销策略。</p>
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full border border-cyber-yellow">
+<img class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOldA-I7DYNvsSZxzZWi3P9mn2QXQ-L0Mze9gLZOeYvfcZuuBrP7qdGYxsOic_g6rPzehJkZm6JKy8bEFa6zz4S2zjmSJpfuNZgnWraT0Ngy9wECjZJpk8xf881g1Cxq1WUyRG6d47R2kcFCQKeh49kPZVFhEZijr8ifFKUC3imYFPH8FmrckGXIwY5CqcH0xX3qY_aac3r5hLeU7j05faq1qYSUcI8DpCo6p6tfpHK0PDnuglXsTA4nmOT8U5ordP5xGsJvPl1cw"/>
+</div>
+<span class="text-[10px] font-headline text-slate-500">@STRAT_GURU</span>
+</div>
+<div class="flex gap-4 text-[10px] font-headline text-cyber-cyan">
+<span class="flex items-center gap-1">👁 2.1K</span>
+<span class="flex items-center gap-1 text-cyber-pink">❤ 672</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 右侧：侧边栏 -->
+<aside class="w-full lg:w-96 space-y-12">
+<div class="cyber-border bg-surface-variant/40 p-8">
+<h3 class="font-headline text-2xl font-black italic mb-8 neon-text-cyan">热点课题 / TRENDS</h3>
+<div class="flex flex-wrap gap-3">
+<a class="px-3 py-1 bg-cyber-cyan/5 border border-cyber-cyan/30 hover:bg-cyber-cyan hover:text-black text-[10px] font-headline transition-all" href="#">#LOGO_DESIGN</a>
+<a class="px-3 py-1 bg-cyber-pink/5 border border-cyber-pink/30 hover:bg-cyber-pink hover:text-black text-[10px] font-headline transition-all" href="#">#HYPERREALISM</a>
+<a class="px-3 py-1 bg-cyber-purple/5 border border-cyber-purple/30 hover:bg-cyber-purple hover:text-white text-[10px] font-headline transition-all" href="#">#PRODUCTIVITY</a>
+<a class="px-3 py-1 bg-white/5 border border-white/20 hover:bg-white hover:text-black text-[10px] font-headline transition-all" href="#">#UI_KITS</a>
+<a class="px-3 py-1 bg-cyber-cyan/5 border border-cyber-cyan/30 hover:bg-cyber-cyan hover:text-black text-[10px] font-headline transition-all" href="#">#RETRO_FUTURE</a>
+</div>
+<div class="mt-16 space-y-8">
+<h4 class="font-headline text-[10px] tracking-[0.3em] uppercase text-slate-500 border-b border-white/10 pb-2">顶级造物主 / TOP_CREATORS</h4>
+<div class="space-y-6">
+<div class="flex items-center gap-5 group cursor-pointer">
+<div class="h-12 w-12 border border-cyber-cyan overflow-hidden rotate-45 group-hover:rotate-0 transition-transform">
+<img class="w-full h-full object-cover -rotate-45 group-hover:rotate-0 scale-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq6djMnDqFVJJ3P4AgsJYknVFTgYTVNffDruOT9IXdeqe9MzUkNOvHiIHFi-gAdf6m6dhMCATFM4j3ElqoVJI_ZKCIxnLgkmZDoUKUJGItoHc_zEZb3ZXEpb-rYj64zdN-9Ui4GAYlqBBe-6jCmtbcoVQtMKUslbBi0x7cs3lzGXVo_Lv8E-NAppvHqtnkVnPcnLMRUsJLq6BD9Gzpk1eYm-KYnhI70ooTXAGpEE2ni5sDmV4-e1vCk2D5Ttv7g0lRETj0SeUTlKs"/>
+</div>
+<div>
+<p class="font-headline text-sm text-white group-hover:text-cyber-cyan">@SERAPHINA_AI</p>
+<p class="text-[9px] text-slate-500 uppercase font-headline">24 指令指令</p>
+</div>
+<button class="ml-auto text-cyber-cyan animate-pulse">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+</div>
+<div class="flex items-center gap-5 group cursor-pointer">
+<div class="h-12 w-12 border border-cyber-pink overflow-hidden rotate-45 group-hover:rotate-0 transition-transform">
+<img class="w-full h-full object-cover -rotate-45 group-hover:rotate-0 scale-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZEJK58p8NGgqrNVSMn5sUr2fHbv_pIOR5TXiCHi24tEf0x69aOEISs2rMwH2-EUYV4C51LRjc6y5WA0jEHOiQ5i5Hr5PKpYPxcrR8-ioFfSWoB60g5tjdk_Pp7LydDs5OBfPiBegjPocFGtx-_7b1Ojl_RfhF5YHD1vAVOH4-qnNvKQmpgCokFDZ-Iqiz5_JuQMY6Fq0Jnpfuy8pROkILtaXNTqDEt024ljWmc4uUqWWrxF1l1APqCr7TzeaoY16N5_admBJFm-Y"/>
+</div>
+<div>
+<p class="font-headline text-sm text-white group-hover:text-cyber-pink">@VOID_CONSTRUCT</p>
+<p class="text-[9px] text-slate-500 uppercase font-headline">18 指令指令</p>
+</div>
+<button class="ml-auto text-cyber-pink animate-pulse">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-16 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-cyber-cyan via-cyber-pink to-cyber-purple opacity-20 group-hover:opacity-40 transition-opacity"></div>
+<div class="relative p-6 border border-white/20">
+<h4 class="font-headline font-black text-2xl italic mb-4">加入公会 / JOIN_GUILD</h4>
+<p class="text-xs text-slate-300 leading-relaxed mb-8">分享你的顶级指令，在我们的工程师社区中赚取信誉点数。</p>
+<button class="w-full py-4 bg-white text-black font-headline font-black text-xs tracking-widest hover:bg-cyber-cyan transition-all glitch-hover">
+                            BECOME_A_CONTRIBUTOR
+                        </button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- 页脚 -->
+<footer class="bg-black w-full py-16 border-t border-cyber-cyan/10 px-12 mt-20">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+<div class="flex flex-col gap-4 text-center md:text-left">
+<span class="text-3xl font-black text-white font-headline italic neon-text-cyan tracking-tighter">PROMPT_CURATOR</span>
+<p class="font-headline text-[10px] uppercase tracking-[0.4em] text-slate-600">© 2024 系统核心. 指令工程师的数字画廊.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-10">
+<a class="font-headline text-[10px] uppercase tracking-widest text-slate-500 hover:text-cyber-cyan transition-all" href="#">文档 / DOCS</a>
+<a class="font-headline text-[10px] uppercase tracking-widest text-slate-500 hover:text-cyber-cyan transition-all" href="#">接口 / API</a>
+<a class="font-headline text-[10px] uppercase tracking-widest text-slate-500 hover:text-cyber-cyan transition-all" href="#">条款 / TERMS</a>
+<a class="font-headline text-[10px] uppercase tracking-widest text-slate-500 hover:text-cyber-cyan transition-all" href="#">隐私 / PRIVACY</a>
+<a class="font-headline text-[10px] uppercase tracking-widest text-slate-500 hover:text-cyber-pink transition-all" href="#">社群 / DISCORD</a>
+</div>
+</div>
+</footer>
+<div class="fixed bottom-6 right-6 z-[120]">
+<div class="bg-cyber-cyan text-black p-4 font-headline text-[10px] font-bold shadow-[0_0_20px_rgba(0,243,255,0.5)] border-2 border-white">
+        SYSTEM_SCAN: OK <br/>
+        LATENCY: 14ms
+    </div>
+</div>
+</body></html>
