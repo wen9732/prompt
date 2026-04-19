@@ -1,0 +1,13 @@
+title: 赛博品牌 KV 模板
+fileName: cyber-brand-kv.jpg
+model: Midjourney v7
+category: Brand Visual
+tags: 品牌, KV, 赛博, 发光
+cinematic brand key visual, iridescent neon reflections, layered background, premium campaign lighting, typography-safe composition
+---
+title: 短视频脚本生成器
+fileName: short-video-script.jpg
+model: GPT-5
+category: Video Script
+tags: 短视频, 口播, 脚本
+act as a senior short-form video strategist, generate 3 viral openings, scene beats, hooks, CTA endings, and subtitle rhythm
